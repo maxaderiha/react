@@ -1,25 +1,25 @@
 import React, {Component} from 'react';
+import CommentsList from '../comment/comments-list';
 
 export default class Article extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isOpen: false
+            isOpen: true
         };
     }
 
     render() {
         const {article} = this.props;
-        const {isOpen} = this.state;
+        const text = this.state.isOpen ? 'close' : 'open';
 
         return (
             <article>
                 <h2>{article.title}</h2>
-                <button onClick={this.toggleOpen}>
-                    {isOpen ? 'close' : 'open'}
-                </button>
+                <button onClick={this.toggleOpen}>{text}</button>
                 {this.getBody()}
+                <CommentsList comments={article.comments}/>
             </article>
         );
     }
@@ -32,18 +32,6 @@ export default class Article extends Component {
 
     toggleOpen = (event) => {
         event.preventDefault();
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
+        this.setState(prevState => ({isOpen: !prevState.isOpen}));
     };
 }
-
-// export default function Article(props) {
-//     const {article} = props;
-//     return (
-//         <article>
-//             <h2>{article.title}</h2>
-//             <section>{article.text}</section>
-//         </article>
-//     );
-// }
