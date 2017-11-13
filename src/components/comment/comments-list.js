@@ -1,31 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from './comment';
 import toggleOpen from '../../decorators/toggleOpen';
 
-class CommentsList extends Component {
-    static defaultProps = {
-        comments: []
-    };
+CommentsList.propTypes = {
+    comments: PropTypes.array
+};
 
-    static propTypes = {
-        comments: PropTypes.array.isRequired
-    };
+function CommentsList({comments, isOpen, toggleOpen}) {
+    const text = isOpen ? 'hide comments' : 'show comments';
 
-    render() {
-        const {isOpen, toggleOpen} = this.props;
-
-        const text = isOpen ? 'hide comments' : 'show comments';
-        return (
-            <section>
-                <button onClick={toggleOpen}>{text}</button>
-                {this.getBody()}
-            </section>
-        );
-    }
-
-    getBody() {
-        const {comments, isOpen} = this.props;
+    const getBody = function () {
         if (!isOpen) return null;
         if (!comments.length) return <p>No comments ...</p>;
         return (
@@ -33,7 +18,14 @@ class CommentsList extends Component {
                 {comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)}
             </ul>
         );
-    }
+    };
+
+    return (
+        <section>
+            <button onClick={toggleOpen}>{text}</button>
+            {getBody()}
+        </section>
+    );
 }
 
 export default toggleOpen(CommentsList);

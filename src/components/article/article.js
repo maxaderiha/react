@@ -1,48 +1,45 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import CommentsList from '../comment/comments-list';
 import toggleOpen from '../../decorators/toggleOpen';
 
-class Article extends Component {
-    static propTypes = {
-        article: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
-            text: PropTypes.string
-        }).isRequired
-    };
 
-    render() {
-        const {article, isOpen, toggleOpen} = this.props;
+Article.propTypes = {
+    article: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        text: PropTypes.string
+    }).isRequired
+};
 
-        const text = isOpen ? 'close' : 'open';
+const options = {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+};
 
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
-        const date = new Date(article.date).toLocaleString('en-GB', options);
+function Article({article, isOpen, toggleOpen}) {
+    const text = isOpen ? 'close' : 'open';
 
-        return (
-            <article>
-                <h2>{article.title}</h2>
-                <p>{date}</p>
-                <button onClick={toggleOpen}>{text}</button>
-                {this.getBody()}
-                <CommentsList comments={article.comments}/>
-            </article>
-        );
-    }
+    const date = new Date(article.date).toLocaleString('en-GB', options);
 
-    getBody() {
-        const {article, isOpen} = this.props;
+    const getBody = function () {
         if (!isOpen) return null;
         return <section>{article.text}</section>;
-    }
+    };
+
+    return (
+        <article>
+            <h2>{article.title}</h2>
+            <p>{date}</p>
+            <button onClick={toggleOpen}>{text}</button>
+            {getBody()}
+            <CommentsList comments={article.comments}/>
+        </article>
+    );
 }
 
 export default toggleOpen(Article);
