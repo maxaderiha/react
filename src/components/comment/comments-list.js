@@ -1,7 +1,16 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Comment from './comment';
 
 export default class CommentsList extends Component {
+    static defaultProps = {
+        comments: []
+    };
+
+    static propTypes = {
+        comments: PropTypes.array.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -23,8 +32,7 @@ export default class CommentsList extends Component {
     getBody() {
         if (!this.state.isOpen) return null;
         const {comments} = this.props;
-        console.log('---', comments);
-        if (!comments || !comments.length) return <p>No comments ...</p>;
+        if (!comments.length) return <p>No comments ...</p>;
         return (
             <ul>
                 {comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)}
