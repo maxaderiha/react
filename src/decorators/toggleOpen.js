@@ -13,6 +13,4 @@ export default (OriginComponent) => class WrapComponent extends Component {
         ev && ev.preventDefault && ev.preventDefault();
         this.setState(prevState => ({isOpen: !prevState.isOpen}));
     };
-
-
 }
