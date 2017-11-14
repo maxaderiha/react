@@ -9,8 +9,8 @@ export default (OriginComponent) => class WrapComponent extends Component {
         return <OriginComponent {...this.props} {...this.state} toggleOpen={this.toggleOpen}/>;
     }
 
-    toggleOpen = (ev) => {
-        ev && ev.preventDefault && ev.preventDefault();
+    toggleOpen = (event) => {
+        event && event.preventDefault && event.preventDefault();
         this.setState(prevState => ({isOpen: !prevState.isOpen}));
     };
 }
