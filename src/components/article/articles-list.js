@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import accordion from '../../decorators/accordion';
 
 ArticlesList.propTypes = {
-    articles: PropTypes.array.isRequired
+    articles: PropTypes.array.isRequired,
+    openArticleId: PropTypes.string,
+    toggleOpenArticle: PropTypes.func.isRequired
 };
 
 function ArticlesList({articles, openArticleId, toggleOpenArticle}) {

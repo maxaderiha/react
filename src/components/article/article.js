@@ -7,9 +7,11 @@ export default class Article extends Component {
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
+            date: PropTypes.string,
             text: PropTypes.string
-        }).isRequired
+        }).isRequired,
+        isOpen: PropTypes.bool.isRequired,
+        toggleOpen: PropTypes.func.isRequired
     };
 
     render() {
