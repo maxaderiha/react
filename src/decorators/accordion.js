@@ -11,6 +11,11 @@ export default (OriginArticlesList) => class WrapArticlesList extends Component 
 
     toggleOpenArticle = openArticleId => event => {
         event && event.preventDefault && event.preventDefault();
-        this.setState({openArticleId});
+        this.setState((prevState) => {
+            if (prevState.openArticleId === openArticleId) {
+                return {openArticleId: null};
+            }
+            return {openArticleId};
+        });
     };
 }
