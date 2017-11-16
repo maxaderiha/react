@@ -1,0 +1,23 @@
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+
+.comment-form textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+
+
+.comment-form_error {
+    outline-color: rgba(255, 0, 0, 0.8);
+    color: rgba(255, 0, 0, 0.8);
+}

@@ -1,7 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import ArticleList from './components/article/articles-list';
-import {articles} from './fixtures';
+import App from './components/app';
 
-
-render(<ArticleList articles={articles}/>, document.querySelector('#container'));
+render(<App/>, document.querySelector('#container'));

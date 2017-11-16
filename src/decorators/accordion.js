@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 
-export default (OriginArticlesList) => class WrapArticlesList extends Component {
+export default (OriginComponent) => class Accordion extends Component {
     state = {
-        openArticleId: null
+        openItemId: null
     };
 
     render() {
-        return <OriginArticlesList {...this.props} {...this.state} toggleOpenArticle={this.toggleOpenArticle}/>;
+        return <OriginComponent {...this.props} {...this.state} toggleOpenItem={this.toggleOpenItem}/>;
     }
 
-    toggleOpenArticle = openArticleId => event => {
-        event && event.preventDefault && event.preventDefault();
+    toggleOpenItem = openItemId => event => {
         this.setState((prevState) => {
-            if (prevState.openArticleId === openArticleId) {
-                return {openArticleId: null};
+            if (prevState.openItemId === openItemId) {
+                return {openItemId: null};
             }
-            return {openArticleId};
+            return {openItemId};
         });
     };
 }

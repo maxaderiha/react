@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Comment from './comment';
-import toggleOpen from '../../decorators/toggleOpen';
+import Comment from '../comment/comment';
+import toggleOpen from '../../decorators/toggle-open';
 
 CommentsList.propTypes = {
     comments: PropTypes.array,
+    //from toggleOpen
     isOpen: PropTypes.bool.isRequired,
     toggleOpen: PropTypes.func.isRequired
 };
@@ -14,7 +15,7 @@ function CommentsList({comments = [], isOpen, toggleOpen}) {
 
     return (
         <section>
-            <button onClick={toggleOpen}>{text}</button>
+            <button className="btn" onClick={toggleOpen}>{text}</button>
             {getBody(comments, isOpen)}
         </section>
     );

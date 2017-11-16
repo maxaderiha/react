@@ -1,15 +1,17 @@
 import React from 'react';
-import Article from './article';
+import Article from '../article/article';
 import PropTypes from 'prop-types';
 import accordion from '../../decorators/accordion';
+import './articles-list.css';
 
 ArticlesList.propTypes = {
     articles: PropTypes.array.isRequired,
-    openArticleId: PropTypes.string,
-    toggleOpenArticle: PropTypes.func.isRequired
+    //from accordion
+    openItemId: PropTypes.string,
+    toggleOpenItem: PropTypes.func.isRequired
 };
 
-function ArticlesList({articles, openArticleId, toggleOpenArticle}) {
+function ArticlesList({articles, openItemId: openArticleId, toggleOpenItem: toggleOpenArticle}) {
     const listElements = articles.map(article => <li key={article.id}>
         <Article
             article={article}
@@ -19,7 +21,7 @@ function ArticlesList({articles, openArticleId, toggleOpenArticle}) {
     </li>);
 
     return (
-        <ul>
+        <ul className='articles-list'>
             {listElements}
         </ul>
     );
