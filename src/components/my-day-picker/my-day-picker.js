@@ -18,7 +18,7 @@ export default class MyDayPicker extends Component {
                     selectedDays={[from, {from, to}]}
                     onDayClick={this.handleDayClick}
                 />
-                {this.getRange(from, to)}
+                <p>{this.getRange(from, to)}</p>
             </div>
         );
     }
@@ -29,7 +29,13 @@ export default class MyDayPicker extends Component {
     };
 
     getRange = (from, to) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+        };
+
         if (from && to)
-            return <p>Your choose {from.toLocaleString()} - {to.toLocaleString()}.</p>;
+            return `Your choose: ${from.toLocaleString('en-GB', options)} - ${to.toLocaleString('en-GB', options)}`;
     };
 }

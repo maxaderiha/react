@@ -23,16 +23,6 @@
 }
 
 
-
-.article {
-    padding: 10px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .50);
-    border-radius: 5px;
-}
-
-
-
 .article__title {
     margin: 0;
     margin-bottom: 15px;

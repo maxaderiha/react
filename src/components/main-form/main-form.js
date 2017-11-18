@@ -17,14 +17,20 @@ export default class MainForm extends Component {
 
     render() {
         return (
-            <section className='main-form'>
-                <MyDayPicker/>
-                <UserForm/>
-                <Select options={options}
-                        value={this.state.selection}
-                        onChange={this.changeSelection}
-                        searchable
-                        multi/>
+            <section className='main-form block-shadow'>
+                <div className='main-form__section'>
+                    <span>Title</span>
+                    <Select className='select'
+                            options={options}
+                            value={this.state.selection}
+                            onChange={this.changeSelection}
+                            searchable
+                            multi/>
+                </div>
+                <div className='main-form__section'>
+                    <span>Date:</span>
+                    <MyDayPicker/>
+                </div>
             </section>
         );
     }

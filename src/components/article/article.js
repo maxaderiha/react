@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import {CSSTransitionGroup} from 'react-transition-group';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {deleteArticle} from '../../action-creators/index';
 import CommentsList from '../comments-list/comments-list';
 import CommentForm from '../comment-form/comment-form';
-import {CSSTransitionGroup} from 'react-transition-group';
 import './article.css';
 
-export default class Article extends Component {
+class Article extends Component {
     static propTypes = {
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -14,7 +16,9 @@ export default class Article extends Component {
             text: PropTypes.string
         }).isRequired,
         isOpen: PropTypes.bool.isRequired,
-        toggleOpen: PropTypes.func.isRequired
+        toggleOpen: PropTypes.func.isRequired,
+        //from connect
+        deleteArticle: PropTypes.func.isRequired
     };
 
     // shouldComponentUpdate(nextProps, nextState) {
@@ -35,10 +39,11 @@ export default class Article extends Component {
         const date = new Date(article.date).toLocaleString('en-GB', options);
 
         return (
-            <article className='article'>
+            <article className='article block-shadow'>
                 <h2 className='article__title'>{article.title}</h2>
                 <p className='article__date'>{date}</p>
                 <button className='btn' onClick={toggleOpen}>{text}</button>
+                <button className='btn btn_delete' onClick={this.handleDelete}>delete</button>
                 <CSSTransitionGroup
                     transitionName="article"
                     transitionEnterTimeout={400}
@@ -48,6 +53,12 @@ export default class Article extends Component {
             </article>
         );
     }
+
+    handleDelete = () => {
+        console.log('delete');
+        const {deleteArticle, article} = this.props;
+        deleteArticle(article.id);
+    };
 
     getBody() {
         const {article, isOpen} = this.props;
@@ -61,3 +72,5 @@ export default class Article extends Component {
         );
     }
 }
+
+export default connect(null, {deleteArticle})(Article);
