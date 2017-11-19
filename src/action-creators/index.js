@@ -18,13 +18,6 @@ export function deleteArticle(id) {
     };
 }
 
-export function filterArticles(filter) {
-    return {
-        type: FILTER_ARTICLES,
-        payload: filter
-    };
-}
-
 export function setSelectFilterFields(selectedFields) {
     return {
         type: SET_FILTER_FIELDS,

@@ -44,25 +44,20 @@ class Filter extends Component {
                         <p>{this.getDaysRange(from, to)}</p>
                     </div>
                 </div>
-                <button className="btn" onClick={this.handleFilterClick}>filter</button>
             </section>
         );
     }
 
     handleChange = (selectTitles) => {
         const {setSelectFilterFields} = this.props;
-        setSelectFilterFields({selectTitles});
+        const selectTitlesIds = selectTitles.map(selectTitle => selectTitle.value);
+        setSelectFilterFields({selectTitles: selectTitlesIds});
     };
 
     handleDayClick = day => {
         const {setSelectFilterFields} = this.props;
         const selectDaysRange = DateUtils.addDayToRange(day, this.props.filter.selectDaysRange);
         setSelectFilterFields({selectDaysRange});
-    };
-
-    handleFilterClick = () => {
-        const {filter} = this.props;
-        store.dispatch(filterArticles(filter));
     };
 
     getDaysRange = (from, to) => {
