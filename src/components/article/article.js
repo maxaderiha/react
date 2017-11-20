@@ -55,7 +55,6 @@ class Article extends Component {
     }
 
     handleDelete = () => {
-        console.log('delete');
         const {deleteArticle, article} = this.props;
         deleteArticle(article.id);
     };
