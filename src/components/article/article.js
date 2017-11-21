@@ -5,16 +5,12 @@ import {connect} from 'react-redux';
 import {deleteArticle} from '../../action-creators/index';
 import CommentsList from '../comments-list/comments-list';
 import CommentForm from '../comment-form/comment-form';
+import {articlesSelectorFactory} from '../../selectors/index';
 import './article.css';
 
 class Article extends Component {
     static propTypes = {
-        article: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            date: PropTypes.string,
-            text: PropTypes.string
-        }).isRequired,
+        id: PropTypes.string.isRequired,
         isOpen: PropTypes.bool.isRequired,
         toggleOpen: PropTypes.func.isRequired,
         //from connect
@@ -72,4 +68,12 @@ class Article extends Component {
     }
 }
 
-export default connect(null, {deleteArticle})(Article);
+const mapStateToProps = () => {
+    const articleSelector = articlesSelectorFactory();
+
+    return (state, ownProps) => {
+        return {article: articleSelector(state, ownProps)};
+    };
+};
+
+export default connect(mapStateToProps, {deleteArticle})(Article);

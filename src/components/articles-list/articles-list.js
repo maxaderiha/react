@@ -3,26 +3,26 @@ import Article from '../article/article';
 import PropTypes from 'prop-types';
 import accordion from '../../decorators/accordion';
 import {connect} from 'react-redux';
-import {filtrateArticlesSelector} from '../../selectors/index';
+import {filtrateArticlesSelector, articlesSelectorFactory} from '../../selectors/index';
 import './articles-list.css';
 
 class ArticlesList extends Component {
     static propTypes = {
         //from connect
-        articles: PropTypes.array.isRequired,
+        articlesIds: PropTypes.array.isRequired,
         //from accordion
         openItemId: PropTypes.string,
         toggleOpenItem: PropTypes.func.isRequired
     };
 
     render() {
-        const {articles, openItemId: openArticleId, toggleOpenItem: toggleOpenArticle} = this.props;
+        const {articlesIds, openItemId: openArticleId, toggleOpenItem: toggleOpenArticle} = this.props;
 
-        const listElements = articles.map(article => <li key={article.id}>
+        const listElements = articlesIds.map(articleId => <li key={articleId}>
             <Article
-                article={article}
-                isOpen={article.id === openArticleId}
-                toggleOpen={toggleOpenArticle(article.id)}
+                id={articleId}
+                isOpen={articleId === openArticleId}
+                toggleOpen={toggleOpenArticle(articleId)}
             />
         </li>);
 
@@ -35,6 +35,8 @@ class ArticlesList extends Component {
 }
 
 export default connect(state => {
-    return {articles: filtrateArticlesSelector(state)};
+    const result = filtrateArticlesSelector(state);
+    console.log(result);
+    return {articlesIds: result};
 })(accordion(ArticlesList));
 
