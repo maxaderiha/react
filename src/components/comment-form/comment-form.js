@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {addComment} from '../../action-creators/index';
 import './comment-form.css';
 
 const limits = {
@@ -12,10 +15,14 @@ const limits = {
     }
 };
 
-export default class CommentForm extends Component {
+class CommentForm extends Component {
+    static propTypes = {
+        articleId: PropTypes.string.isRequired,
+    };
+
     state = {
         user: '',
-        text: ''
+        text: '',
     };
 
     render() {
@@ -52,8 +59,27 @@ export default class CommentForm extends Component {
         this.setState({[name]: value});
     };
 
+    validateForm() {
+        let status = true;
+        for (const fieldName in this.state) {
+            const length = this.state[fieldName].length;
+
+            if (length < limits[fieldName].min || length > limits[fieldName].max) {
+                alert(`Incorrect ${fieldName} data`);
+                status = false;
+            }
+        }
+        return status;
+    }
+
     handleSubmit = (event) => {
-        alert(`${this.state.user} and ${this.state.text} was submitted.`);
+        const {user, text} = this.state;
+        const {addComment, articleId} = this.props;
         event.preventDefault();
+        if (this.validateForm()) {
+            addComment(user, text, articleId);
+        }
     };
 }
+
+export default connect(null, {addComment})(CommentForm);

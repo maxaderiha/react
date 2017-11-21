@@ -1,13 +1,14 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 
 import logger from '../middlewares/logger';
+import generateCommentId from '../middlewares/generateCommentId';
 
 import counterReducer from '../components/counter/reducer';
 import articlesListReducer from '../components/articles-list/reducer';
 import filterReducer from '../components/filter/reducer';
 import commentsReducer from '../components/comment/reducer';
 
-const enhancer = applyMiddleware(logger);
+const enhancer = applyMiddleware(generateCommentId, logger);
 
 const reducer = combineReducers({
     count: counterReducer,

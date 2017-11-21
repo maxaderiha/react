@@ -56,12 +56,12 @@ class Article extends Component {
     };
 
     getBody() {
-        const {article, isOpen} = this.props;
+        const {id, article, isOpen} = this.props;
         if (!isOpen) return null;
         return (
             <section>
                 <p className='article__content'>{article.text}</p>
-                <CommentForm/>
+                <CommentForm articleId={id}/>
                 <CommentsList comments={article.comments}/>
             </section>
         );
