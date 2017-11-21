@@ -7,24 +7,24 @@ const articlesMap = defaultArticles.reduce((acc, article) => {
 }, {});
 
 export default (articlesState = articlesMap, action) => {
-    const {type, payload} = action;
+    const {type, payload, randomId} = action;
 
     switch (type) {
         case ADD_COMMENT:
-            const updateArticle = Object.assign({}, articlesState[payload.articleId]);
+            const article = articlesState[payload.articleId];
 
-            if (!updateArticle.comments) {
-                updateArticle.comments = [];
-            }
-
-            updateArticle.comments.push(payload.commentId);
-
-            const newArticle = {};
-            newArticle[updateArticle.id] = updateArticle;
-
-            return Object.assign({}, articlesState, newArticle);
+            return {
+                ...articlesState,
+                [payload.articleId]: {
+                    ...article,
+                    comments: (article.comments || []).concat(randomId),
+                },
+            };
         case DELETE_ARTICLE:
-            return articlesState.filter(article => article.id !== payload.id);
+            const tempArticlesState = Object.assign({}, articlesState);
+            delete tempArticlesState[payload.id];
+
+            return tempArticlesState;
         default:
             return articlesState;
     }

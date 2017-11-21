@@ -30,9 +30,12 @@ export function addComment(user, text, articleId) {
     return {
         type: ADD_COMMENT,
         payload: {
-            user,
-            text,
+            comment: {
+                user,
+                text,
+            },
             articleId,
         },
+        generateCommentId: true,
     };
 }
