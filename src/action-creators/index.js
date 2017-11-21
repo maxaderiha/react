@@ -3,6 +3,7 @@ import {
     INCREMENT,
     SET_FILTER_FIELDS,
     ADD_COMMENT,
+    LOAD_ALL_ARTICLES,
 } from '../constants';
 
 
@@ -37,5 +38,12 @@ export function addComment(user, text, articleId) {
             articleId,
         },
         generateCommentId: true,
+    };
+}
+
+export function loadAllArticles() {
+    return {
+        type: LOAD_ALL_ARTICLES,
+        callAPI: '/api/article',
     };
 }

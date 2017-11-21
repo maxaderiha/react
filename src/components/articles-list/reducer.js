@@ -1,18 +1,13 @@
 import {normalizedArticles as defaultArticles} from '../../fixtures';
-import {DELETE_ARTICLE, ADD_COMMENT} from '../../constants';
+import {DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES} from '../../constants';
+import {arrToMap} from '../../helpers';
 
-const articlesMap = defaultArticles.reduce((acc, article) => {
-    acc[article.id] = article;
-    return acc;
-}, {});
-
-export default (articlesState = articlesMap, action) => {
-    const {type, payload, randomId} = action;
+export default (articlesState = {}, action) => {
+    const {type, payload, randomId, response} = action;
 
     switch (type) {
         case ADD_COMMENT:
             const article = articlesState[payload.articleId];
-
             return {
                 ...articlesState,
                 [payload.articleId]: {
@@ -20,11 +15,15 @@ export default (articlesState = articlesMap, action) => {
                     comments: (article.comments || []).concat(randomId),
                 },
             };
+
         case DELETE_ARTICLE:
             const tempArticlesState = Object.assign({}, articlesState);
             delete tempArticlesState[payload.id];
-
             return tempArticlesState;
+
+        case LOAD_ALL_ARTICLES:
+            return arrToMap(response);
+
         default:
             return articlesState;
     }
