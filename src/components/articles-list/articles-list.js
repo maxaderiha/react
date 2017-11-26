@@ -5,29 +5,38 @@ import accordion from '../../decorators/accordion';
 import {connect} from 'react-redux';
 import {filtrateArticlesSelector} from '../../selectors/index';
 import {loadAllArticles} from '../../action-creators/index';
+import Loader from '../loader/loader';
 import './articles-list.css';
 
 class ArticlesList extends Component {
     static propTypes = {
         //from connect
-        articlesIds: PropTypes.array.isRequired,
+        articles: PropTypes.array.isRequired,
         //from accordion
         openItemId: PropTypes.string,
         toggleOpenItem: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.props.loadAllArticles();
+        const {loaded, loading, loadAllArticles} = this.props;
+        if (!loaded || !loading) loadAllArticles();
     }
 
     render() {
-        const {articlesIds, openItemId: openArticleId, toggleOpenItem: toggleOpenArticle} = this.props;
+        const {
+            articles,
+            loading,
+            openItemId: openArticleId,
+            toggleOpenItem: toggleOpenArticle
+        } = this.props;
 
-        const listElements = articlesIds.map(articleId => <li key={articleId}>
+        if (loading) return <Loader/>;
+
+        const listElements = articles.map(article => <li key={article.id}>
             <Article
-                id={articleId}
-                isOpen={articleId === openArticleId}
-                toggleOpen={toggleOpenArticle(articleId)}
+                id={article.id}
+                isOpen={article.id === openArticleId}
+                toggleOpen={toggleOpenArticle(article.id)}
             />
         </li>);
 
@@ -40,7 +49,10 @@ class ArticlesList extends Component {
 }
 
 export default connect(state => {
-    const result = filtrateArticlesSelector(state);
-    return {articlesIds: result};
+    return {
+        articles: filtrateArticlesSelector(state),
+        loading: state.articles.loading,
+        loaded: state.articles.loaded,
+    };
 }, {loadAllArticles})(accordion(ArticlesList));
 

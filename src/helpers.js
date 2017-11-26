@@ -1,10 +1,9 @@
-export function mapToArr(obj) {
-    return Object.assign(obj).map(id => obj[id]);
+import {OrderedMap, Map} from 'immutable';
+
+export function arrToMap(arr, DataRecord = Map) {
+    return arr.reduce((acc, item) => (acc.set(item.id, new DataRecord(item))), new OrderedMap({}));
 }
 
-export function arrToMap(arr) {
-    return arr.reduce((acc, article) => {
-        acc[article.id] = article;
-        return acc;
-    }, {});
+export function mapToArr(map) {
+    return map.valueSeq().toArray();
 }

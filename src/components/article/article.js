@@ -2,11 +2,20 @@ import React, {Component} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {deleteArticle} from '../../action-creators/index';
+import {deleteArticle, loadArticle} from '../../action-creators/index';
 import CommentsList from '../comments-list/comments-list';
 import CommentForm from '../comment-form/comment-form';
 import {articlesSelectorFactory} from '../../selectors/index';
+import Loader from '../loader/loader';
 import './article.css';
+
+const options = {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+};
 
 class Article extends Component {
     static propTypes = {
@@ -21,17 +30,15 @@ class Article extends Component {
     //     return this.props.isOpen !== nextProps.isOpen;
     // }
 
+    componentWillReceiveProps({isOpen, loadArticle, article}) {
+        if (isOpen && !article.text && !article.loading) loadArticle(article.id);
+    }
+
     render() {
         const {article, isOpen, toggleOpen} = this.props;
         const text = isOpen ? 'close' : 'open';
 
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
+
         const date = new Date(article.date).toLocaleString('en-GB', options);
 
         return (
@@ -58,6 +65,7 @@ class Article extends Component {
     getBody() {
         const {id, article, isOpen} = this.props;
         if (!isOpen) return null;
+        if (article.loading) return <Loader/>;
         return (
             <section>
                 <p className='article__content'>{article.text}</p>
@@ -76,4 +84,4 @@ const mapStateToProps = () => {
     };
 };
 
-export default connect(mapStateToProps, {deleteArticle})(Article);
+export default connect(mapStateToProps, {deleteArticle, loadArticle})(Article);

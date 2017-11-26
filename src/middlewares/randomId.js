@@ -1,8 +1,5 @@
 export default store => next => action => {
-    if (!action.generateCommentId) {
-        next(action);
-        return;
-    }
+    if (!action.generateCommentId) return next(action);
 
     next({
         ...action,

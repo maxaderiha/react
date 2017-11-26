@@ -3,15 +3,9 @@ import {connect} from 'react-redux';
 import {setSelectFilterFields, filterArticles} from '../../action-creators/index';
 import Select from 'react-select';
 import DayPicker, {DateUtils} from 'react-day-picker';
-import {articles} from '../../fixtures';
-import store from '../../redux/index';
 import 'react-day-picker/lib/style.css';
 import './filter.css';
-
-const titleOptions = articles.map(article => ({
-    label: article.title,
-    value: article.id
-}));
+import {mapToArr} from '../../helpers';
 
 const dateOptions = {
     year: 'numeric',
@@ -21,8 +15,13 @@ const dateOptions = {
 
 class Filter extends Component {
     render() {
-        const {selectTitles} = this.props.filter;
+        const {filter: {selectTitles}, articles} = this.props;
         const {from, to} = this.props.filter.selectDaysRange;
+
+        const titleOptions = articles.map(article => ({
+            label: article.title,
+            value: article.id
+        }));
         return (
             <section className='main-form block-shadow'>
                 <div className='main-form__section'>
@@ -66,5 +65,8 @@ class Filter extends Component {
     };
 }
 
-export default connect((state) => ({filter: state.filter}), {setSelectFilterFields})(Filter);
+export default connect((state) => ({
+    filter: state.filter,
+    articles: mapToArr(state.articles.entities),
+}), {setSelectFilterFields})(Filter);
 
