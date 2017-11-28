@@ -26,10 +26,6 @@ class Article extends Component {
         deleteArticle: PropTypes.func.isRequired
     };
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return this.props.isOpen !== nextProps.isOpen;
-    // }
-
     componentWillReceiveProps({isOpen, loadArticle, article}) {
         if (isOpen && !article.text && !article.loading) loadArticle(article.id);
     }
@@ -70,7 +66,7 @@ class Article extends Component {
             <section>
                 <p className='article__content'>{article.text}</p>
                 <CommentForm articleId={id}/>
-                <CommentsList comments={article.comments}/>
+                <CommentsList article={article}/>
             </section>
         );
     }

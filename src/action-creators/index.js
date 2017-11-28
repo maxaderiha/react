@@ -3,6 +3,7 @@ import {
     INCREMENT,
     SET_FILTER_FIELDS,
     ADD_COMMENT,
+    LOAD_ARTICLE_COMMENTS,
     LOAD_ALL_ARTICLES,
     LOAD_ARTICLE,
     START,
@@ -13,21 +14,21 @@ import {
 
 export function increment() {
     return {
-        type: INCREMENT
+        type: INCREMENT,
     };
 }
 
 export function deleteArticle(id) {
     return {
         type: DELETE_ARTICLE,
-        payload: {id}
+        payload: {id},
     };
 }
 
 export function setSelectFilterFields(selectedFields) {
     return {
         type: SET_FILTER_FIELDS,
-        payload: selectedFields
+        payload: selectedFields,
     };
 }
 
@@ -72,4 +73,26 @@ export function loadArticle(id) {
                 }));
         }, 1000);
     };
+}
+
+export function loadArticleComments(articleId) {
+    return (dispatch) => {
+        dispatch({
+            type: LOAD_ARTICLE_COMMENTS + START,
+            payload: {articleId},
+        });
+
+        setTimeout(() => {
+            fetch(`/api/comment?article=${articleId}`)
+                .then(res => res.json())
+                .then(response => dispatch({
+                    type: LOAD_ARTICLE_COMMENTS + SUCCESS,
+                    payload: {articleId, response},
+                }))
+                .catch(error => dispatch({
+                    type: LOAD_ARTICLE_COMMENTS + FAIL,
+                    payload: {articleId, error},
+                }));
+        }, 1000);
+    }
 }

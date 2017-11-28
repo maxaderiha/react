@@ -1,4 +1,4 @@
-import {SET_FILTER_FIELDS} from '../../constants';
+import {SET_FILTER_FIELDS} from '../constants';
 
 const defaultFilters = {
     selectTitles: [],

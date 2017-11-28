@@ -1,20 +1,22 @@
-import {normalizedArticles as defaultArticles} from '../../fixtures';
 import {
     DELETE_ARTICLE,
     ADD_COMMENT,
     LOAD_ALL_ARTICLES,
     SUCCESS,
     START,
-    LOAD_ARTICLE,
-} from '../../constants';
-import {arrToMap} from '../../helpers';
-import {OrderedMap, Map, Record} from 'immutable';
+    LOAD_ARTICLE, LOAD_ARTICLE_COMMENTS,
+} from '../constants';
+import {arrToMap} from '../helpers';
+import {OrderedMap, Record} from 'immutable';
+
 
 const ArticleRecord = Record({
     text: undefined,
     title: '',
     date: undefined,
     id: undefined,
+    commentsLoading: false,
+    commentsLoaded: false,
     comments: [],
     loading: false,
 });
@@ -35,6 +37,14 @@ export default (articlesState = defaultArticlesState, action) => {
             return articlesState.updateIn(
                 ['entities', payload.articleId, 'comments'],
                 comments => comments.concat(randomId));
+
+        case LOAD_ARTICLE_COMMENTS + START:
+            return articlesState.setIn(['entities', payload.articleId, 'commentsLoading'], true);
+
+        case LOAD_ARTICLE_COMMENTS + SUCCESS:
+            return articlesState
+                .setIn(['entities', payload.articleId, 'commentsLoading'], false)
+                .setIn(['entities', payload.articleId, 'commentsLoaded'], true);
 
         case DELETE_ARTICLE:
             return articlesState.deleteIn(['entities', payload.id]);
