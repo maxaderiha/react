@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import ArticlesList from './articles-list/articles-list';
+import Articles from './routes/Articles';
+import NewArticle from './routes/new-article';
+import NotFound from './routes/not-found';
 import Filter from './filter/filter';
 import Counter from './counter/counter';
-import {HashRouter as Router, Route, NavLink} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
 import 'react-select/dist/react-select.css';
 
 
@@ -25,9 +27,13 @@ export default class App extends Component {
                             </li>
                         </ul>
                     </section>
-                    <Route path='/counter' component={Counter}/>
-                    <Route path='/filter' component={Filter}/>
-                    <Route path='/articles' component={ArticlesList}/>
+                    <Switch>
+                        <Route path='/counter' component={Counter}/>
+                        <Route path='/filter' component={Filter}/>
+                        <Route path='/articles/new' component={NewArticle}/>
+                        <Route path='/articles' component={Articles}/>
+                        <Route path='*' component={NotFound}/>
+                    </Switch>
                 </div>
             </Router>
         );
